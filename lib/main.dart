@@ -34,6 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  final String fileName = 'migraine_log.json';
   Map<DateTime, Entry> _migraineLog = {};
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
@@ -46,7 +47,7 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _loadData() async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/migraine_log2.json');
+    final file = File('${directory.path}/$fileName');
     if (await file.exists()) {
       final data = await file.readAsString();
       setState(() {
@@ -59,7 +60,7 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _saveData() async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/migraine_log.json');
+    final file = File('${directory.path}/$fileName');
     final data = json.encode(_migraineLog.map((key, value) => MapEntry(key.toIso8601String(), value.toJson())));
     await file.writeAsString(data);
   }
